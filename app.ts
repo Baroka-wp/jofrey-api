@@ -1,12 +1,12 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-// const axios = require('axios');
-const cors = require('cors'); // Import cors
-const dotenv = require('dotenv');
-const OpenAI = require('openai');
+import express from 'express';
+import bodyParser from 'body-parser';
+// import axios from 'axios';
+import cors from 'cors'; // Import cors
+import dotenv from 'dotenv';
+import OpenAI from 'openai';
 
 // Load properties data
-const properties = require('./src/ressources/properties.json');
+import properties from './src/ressources/properties.json';
 
 
 dotenv.config();
@@ -45,12 +45,12 @@ app.post('/api/generate', async (req, res) => {
 
     try {
         const completion = await openai.chat.completions.create({
-            messages: [{"role": "system", "content": "You are a helpful assistant. acts like a real estate agent"},
-            {"role": "user", "content": userMessage}],
+            messages: [{ "role": "system", "content": "You are a helpful assistant. acts like a real estate agent" },
+            { "role": "user", "content": userMessage }],
             model: "gpt-3.5-turbo",
-          });
+        });
 
-        const botMessage = completion.choices[0].message.content.trim();
+        const botMessage = completion.choices[0]?.message?.content?.trim() || '';
         res.status(200).json({ message: botMessage });
     } catch (error) {
         console.error('Error:', error);
@@ -64,9 +64,10 @@ app.post('/api/generate', async (req, res) => {
 app.post('/api/parse-to-json', async (req, res) => {
     const userMessage = req.body.message;
     try {
-          const completion = await openai.chat.completions.create({
-            messages: [{"role": "system", "content": "You are a helpful assistant designed to output JSON."},
-            {"role": "system", "content": `
+        const completion = await openai.chat.completions.create({
+            messages: [{ "role": "system", "content": "You are a helpful assistant designed to output JSON." },
+            {
+                "role": "system", "content": `
                 Extrait de cette conversation les informations et envoie moi un JSON avec les message du client afin de creer un filtre. Par exemple : {
                 "city": "londom",
                 "type": "villa",
@@ -75,13 +76,13 @@ app.post('/api/parse-to-json', async (req, res) => {
                 "rooms": 7 #integer,
                 "area": 134 #integer
             }`},
-            {"role": "user", "content": userMessage}],
+            { "role": "user", "content": userMessage }],
             model: "gpt-3.5-turbo-0125",
             response_format: { type: "json_object" },
-          });
-        
+        });
 
-        const botMessage = JSON.parse(completion.choices[0].message.content);
+
+        const botMessage = completion.choices[0].message.content ? JSON.parse(completion.choices[0].message.content) : {};
         console.log(botMessage)
 
         // const resp = {
