@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const axios = require('axios');
+// const axios = require('axios');
 const cors = require('cors'); // Import cors
 const dotenv = require('dotenv');
 const OpenAI = require('openai');
@@ -26,6 +26,11 @@ app.use((req, res, next) => {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
+
+app.get('/', (req, res) => {
+    res.json('Bienvenue sur le site de location d\'appartements !');
+  });
+  
 
 // Define a route to get properties
 app.get('/api/properties', (req, res) => {
