@@ -52,3 +52,4 @@ Thumbs.db
 serviceAccountKey.json
 
 yarn.lock.bkp
+.vercel
