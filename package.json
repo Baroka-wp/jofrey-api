@@ -19,7 +19,8 @@
     "express": "^4.19.2",
     "http": "^0.0.1-security",
     "openai": "^4.47.3",
-    "rimraf": "^5.0.7"
+    "rimraf": "^5.0.7",
+    "vercel": "^34.2.4"
   },
   "devDependencies": {
     "@types/body-parser": "^1.19.5",

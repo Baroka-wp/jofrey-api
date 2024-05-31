@@ -5,7 +5,7 @@
 
 # Node artifact files
 node_modules/
-build/
+# build/
 prisma/migrations
 yarn.lock
 # Compiled Java class files
